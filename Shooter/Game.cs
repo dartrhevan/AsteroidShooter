@@ -5,14 +5,38 @@ namespace Shooter
 {
     public class Game
     {
-        public int Height { get; set; }
-        public int Width { get; set; }
+        private int width;
+        private int height;
 
-        public Player Player { get; private set; }
+        public int Height
+        {
+            get => height;
+            set
+            {
+                height = value;
+                Human.UpdateLine();
+
+            }
+        }
+
+        public int Width
+        {
+            get => width;
+            set
+            {
+                width = value;
+                Human.UpdateLine();
+            }
+        }
+
+        public Player Human { get; private set; }
+        public Player Bot { get; private set; }
 
         public Game()
         {
-            Player = new Player(this);
+            Human = new Player(this, game => new PointF(game.Width / 2, 0));
+            Bot = new Player(this, game => new PointF(game.Width / 2, game.Height));
+
         }
 
         public static double GetDistance(double dx, double dy) =>

@@ -39,6 +39,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bullet.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="MainForm.cs">
@@ -46,6 +47,7 @@
     </Compile>
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Aim.cs" />
     <Compile Include="Shell.cs" />
     <Compile Include="Vector.cs" />
   </ItemGroup>

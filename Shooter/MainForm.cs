@@ -22,17 +22,38 @@ namespace Shooter
             FormBorderStyle = FormBorderStyle.Sizable;
         }
 
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case 'a':
+                    game.Human.TurnLeft();
+                    break;
+                case 'd':
+                    game.Human.TurnRight();
+                    break;
+            }
+        }
+
+        
         protected override void OnPaint(PaintEventArgs e)
         {
-            game.Height = e.ClipRectangle.Height;
-            game.Width = e.ClipRectangle.Width;
-
-            game.Player.Draw(e.Graphics);
+            UpdateGame(e);
+            game.Human.Draw(e.Graphics);
             /*
             e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), new Size(100, 100)));
             e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(
             e.ClipRectangle.Width - 100,
             e.ClipRectangle.Height - 100), new Size(100, 100)));*/
         }
+
+        void UpdateGame(PaintEventArgs e)
+        {
+            game.Height = e.ClipRectangle.Height;
+            game.Width = e.ClipRectangle.Width;
+            //game.Player.InitLine(game);
+        }
+
+
     }
 }
