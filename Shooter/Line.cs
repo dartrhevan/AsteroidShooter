@@ -39,7 +39,7 @@ namespace Shooter
                 Direction = new Vector(1, angleCoeficient);//.Normalize();
             Dot = dot;
             AngleCoeficient = angleCoeficient;
-            Shift = angleCoeficient != double.PositiveInfinity && angleCoeficient != double.NegativeInfinity ?
+            Shift = !double.IsInfinity(angleCoeficient) ?
                 - angleCoeficient * dot.X + dot.Y :
                 dot.X;
             /*if (Direction.X == double.NaN || Direction.X == double.PositiveInfinity ||

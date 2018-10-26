@@ -6,7 +6,7 @@ namespace Shooter
 {
     public class Player
     {
-        public float Angle {
+        public double Angle {
             get => angle;
             private set
             {
@@ -16,9 +16,9 @@ namespace Shooter
         }
         public PointF Location { get; private set; }
         //private bool isShoot = false;
-        private float dAngle = 0.01f;
+        private double dAngle = 0.01;
         private Line line;
-        private float angle;
+        private double angle;
         private readonly Game game;
         private readonly Func<Game, PointF> getLocation;
 
@@ -43,17 +43,17 @@ namespace Shooter
 
         public void TurnRight()
         {
-            Angle += dAngle;
+            Angle -= dAngle;
         }
 
         public void TurnLeft()
         {
-            Angle -= dAngle;
+            Angle += dAngle;
         }
 
         public void Draw(Graphics g)
         {
-            var secondDot = new PointF((float) (-line.Shift / line.AngleCoeficient), game.Height);
+            var secondDot = new PointF((float) ((game.Height - line.Shift )/ line.AngleCoeficient), game.Height);
             g.DrawLine(Pens.Red, line.Dot.Convert(game.Height), secondDot.Convert(game.Height));
         }
     }
