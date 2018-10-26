@@ -32,8 +32,8 @@ namespace Shooter
 
         public void UpdateLine()
         {
-            //Location = getLocation(game);//new PointF(game.Width / 2, game.Height);
-            line = new Line(Math.Tan(Angle), new PointF(game.Width / 2, game.Height));
+            Location = getLocation(game);//new PointF(game.Width / 2, game.Height);
+            line = new Line(Math.Tan(Angle), Location);
         }
 
         public void Shoot()
@@ -53,8 +53,8 @@ namespace Shooter
 
         public void Draw(Graphics g)
         {
-            var secondDot = new PointF((float) (-line.Shift / line.AngleCoeficient), 0);
-            g.DrawLine(Pens.Red, line.Dot, secondDot);
+            var secondDot = new PointF((float) (-line.Shift / line.AngleCoeficient), game.Height);
+            g.DrawLine(Pens.Red, line.Dot.Convert(game.Height), secondDot.Convert(game.Height));
         }
     }
 }
