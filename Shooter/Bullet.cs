@@ -5,21 +5,23 @@ namespace Shooter
     public class Bullet : Shell
     {
 
-        public Bullet(Point location, Game g, int height = 10, int width = 10)
+        public Bullet(PointF location, Game g, Vector velocity, int height = 10, int width = 10)
         {
             game = g;
             Brush = Brushes.Black;
             Width = width;
             Height = height;
             Location = location;
-            Velocity = Vector.Zero;
+            Velocity = velocity ?? Vector.Zero;
         }
 
-        public override void Move(Game g)
+        public override void Move()
         {
-            Location = new Point((int)(Location.X + Velocity.X), (int)(Location.Y + Velocity.Y));
+            Location = new PointF((float)(Location.X + Velocity.X), (float)(Location.Y + Velocity.Y));
             var center = GetCenter();
-            if (center.X > Width || center.X < 0 || center.Y > Height || center.Y < 0) Disappear();
+            if (center.X > game.Width || center.X < 0 || center.Y > game.Height || center.Y < 0
+                )
+                Disappear();
         }
     }
 }

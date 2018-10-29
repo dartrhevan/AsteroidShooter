@@ -16,7 +16,7 @@ namespace Shooter
         public int Height { get; protected set; }
         public PointF Location { get => location; set => location = value; }
 
-        public abstract void Move(Game g);
+        public abstract void Move();
         public void Draw(Graphics g, int height)
         {
             var location = this.location.Convert(height);
@@ -28,7 +28,11 @@ namespace Shooter
 
         public void Disappear()
         {
-            
+            if (this is Aim)
+                game.Bot.Shell = null;
+            else if(this is Bullet)
+                game.Human.Shell = null;
+
         }
 
         //public abstract PointF GetValidMove(PointF location, Game game);

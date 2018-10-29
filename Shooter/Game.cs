@@ -29,14 +29,21 @@ namespace Shooter
             }
         }
 
-        public Player Human { get; private set; }
-        public Player Bot { get; private set; }
+        public Human Human { get; private set; }
+        public Bot Bot { get; private set; }
 
         public Game()
         {
-            Human = new Player(this, game => new PointF(game.Width / 2, 0));
-            Bot = new Player(this, game => new PointF(game.Width / 2, game.Height));
+            Human = new Human(this);
+            Bot = new Bot(this);
 
+        }
+
+        public void Act()
+        {
+            Bot.Shoot();
+            Human.Shell?.Move();
+            Bot.Shell?.Move();
         }
 
         public static double GetDistance(double dx, double dy) =>

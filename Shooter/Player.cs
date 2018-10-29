@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace Shooter
 {
-    public class Player
+    public abstract class Player
     {
         public double Angle {
             get => angle;
@@ -16,15 +16,17 @@ namespace Shooter
         }
         public PointF Location { get; private set; }
         //private bool isShoot = false;
-        private double dAngle = 0.01;
-        private Line line;
+        private double dAngle = 0.03;
+        protected Line line;
         private double angle;
-        private readonly Game game;
-        private readonly Func<Game, PointF> getLocation;
+        protected readonly Game game;
+        public double ShellVelocity = 10;
+        public Shell Shell;
+        //private readonly Func<Game, PointF> getLocation;
 
-        public Player(Game game, Func<Game, PointF> getLocation)
+        protected Player(Game game/*, Func<Game, PointF> getLocation*/)
         {
-            this.getLocation = getLocation;
+            //this.getLocation = getLocation;
             this.game = game;
             angle = (float)Math.PI / 2;
             UpdateLine();
@@ -32,13 +34,19 @@ namespace Shooter
 
         public void UpdateLine()
         {
-            Location = getLocation(game);//new PointF(game.Width / 2, game.Height);
+            Location = GetLocation();//new PointF(game.Width / 2, game.Height);
             line = new Line(Math.Tan(Angle), Location);
         }
 
+        protected abstract PointF GetLocation();
+        protected abstract Shell GetShell();
+
         public void Shoot()
         {
-            throw new NotImplementedException();
+            UpdateLine();
+            if (Shell == null)
+                Shell = GetShell();
+
         }
 
         public void TurnRight()

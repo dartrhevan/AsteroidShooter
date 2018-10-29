@@ -16,7 +16,11 @@ namespace Shooter
         {
             game = new Game();
             timer = new Timer { Interval = 10};
-            timer.Tick += (sender, args) => { Invalidate(); };
+            timer.Tick += (sender, args) =>
+            {
+                game.Act();
+                Invalidate();
+            };
             timer.Start();
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.Sizable;
@@ -32,6 +36,9 @@ namespace Shooter
                 case 'd':
                     game.Human.TurnRight();
                     break;
+                case 'w':
+                    game.Human.Shoot();
+                    break;
             }
         }
 
@@ -40,6 +47,9 @@ namespace Shooter
         {
             UpdateGame(e);
             game.Human.Draw(e.Graphics);
+            game.Human.Shell?.Draw(e.Graphics, game.Height);
+            game.Bot.Shell?.Draw(e.Graphics, game.Height);
+
             /*
             e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), new Size(100, 100)));
             e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(
