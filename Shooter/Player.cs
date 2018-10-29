@@ -8,7 +8,7 @@ namespace Shooter
     {
         public double Angle {
             get => angle;
-            private set
+            protected set
             {
                 angle = value;
                 UpdateLine();
@@ -41,13 +41,8 @@ namespace Shooter
         protected abstract PointF GetLocation();
         protected abstract Shell GetShell();
 
-        public void Shoot()
-        {
-            UpdateLine();
-            if (Shell == null)
-                Shell = GetShell();
-
-        }
+        public abstract void Shoot();
+    
 
         public void TurnRight()
         {

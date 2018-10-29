@@ -9,6 +9,13 @@ namespace Shooter
             ShellVelocity = 50;
         }
 
+        public override void Shoot()
+        {
+            UpdateLine();
+            if (Shell == null)
+                Shell = GetShell();
+        }
+
         protected override PointF GetLocation() => new PointF(game.Width / 2, 0);
 
         protected override Shell GetShell()
@@ -16,5 +23,7 @@ namespace Shooter
             var dir = line.Direction.Y > 0 ? line.Direction.Normalize() : -line.Direction.Normalize();
             return new Bullet(Location, game, dir * ShellVelocity);
         }
+
+        
     }
 }
