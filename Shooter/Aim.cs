@@ -20,12 +20,13 @@ namespace Shooter
 
         public override void Move()
         {
+
             //if (Velocity.Length < 0.1) Velocity = Vector.Zero;
-            if ((Location.Y <= Height + 11 && Velocity.Y < 0)  || 
-                (Location.Y >= game.Height - 11 && Velocity.Y > 0))
+            if ((Location.Y <= Height && Velocity.Y < 0)  || 
+                (Location.Y >= game.Height && Velocity.Y > 0))
                 Velocity = new Vector(Velocity.X, -Velocity.Y);
-            if ((Location.X <= 11 && Velocity.X < 0)
-                || (Location.X + Width >= game.Width - 11 && Velocity.X > 0))
+            if ((Location.X <= 0 && Velocity.X < 0)
+                || (Location.X + Width >= game.Width && Velocity.X > 0))
                 Velocity = new Vector(-Velocity.X, Velocity.Y);
 
             Location = new PointF((float)(Location.X + Velocity.X), (float)(Location.Y + Velocity.Y));

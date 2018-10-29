@@ -14,6 +14,7 @@ namespace Shooter
         private Timer timer;
         public MainForm()
         {
+            DoubleBuffered = true;
             game = new Game();
             timer = new Timer { Interval = 10};
             timer.Tick += (sender, args) =>
@@ -22,7 +23,6 @@ namespace Shooter
                 Invalidate();
             };
             timer.Start();
-            DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.Sizable;
         }
 
@@ -39,6 +39,9 @@ namespace Shooter
                 case 'w':
                     game.Human.Shoot();
                     break;
+                case 's':
+                    game.Bot.Shoot();
+                    break;
             }
         }
 
@@ -54,7 +57,7 @@ namespace Shooter
             e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), new Size(100, 100)));
             e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(
             e.ClipRectangle.Width - 100,
-            e.ClipRectangle.Height - 100), new Size(100, 100)));*/
+            e.ClipRectangle.Height - 100),new Size(100, 100)));*/
         }
 
         void UpdateGame(PaintEventArgs e)

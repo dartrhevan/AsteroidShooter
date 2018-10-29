@@ -6,13 +6,14 @@ namespace Shooter
     {
         public Bot(Game game) : base(game)
         {
-            
-            TurnRight();
         }
 
         protected override PointF GetLocation() => new PointF(game.Width / 2, game.Height);
 
-        protected override Shell GetShell() => new Aim(Location, game, line.Direction * ShellVelocity);
-
+        protected override Shell GetShell()
+        {
+            var dir = line.Direction.Y > 0 ? line.Direction.Normalize() : -line.Direction.Normalize();
+            return new Aim(Location, game, dir * ShellVelocity);
+        }
     }
 }

@@ -41,7 +41,7 @@ namespace Shooter
 
         public void Act()
         {
-            Bot.Shoot();
+            //Bot.Shoot();
             Human.Shell?.Move();
             Bot.Shell?.Move();
         }

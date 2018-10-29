@@ -22,8 +22,8 @@ namespace Shooter
             var location = this.location.Convert(height);
             g.FillEllipse(Brush, location.X, location.Y, Width, Height);
             g.DrawEllipse(new Pen(Color.Black, 4), location.X, location.Y, Width, Height);
-            g.DrawLine(new Pen(Color.Black, 6), location.X, location.Y + Height / 2, location.X + Width,
-                location.Y + Height / 2);
+            /*g.DrawLine(new Pen(Color.Black, 6), location.X, location.Y + Height / 2, location.X + Width,
+                location.Y + Height / 2);*/
         }
 
         public void Disappear()
@@ -32,7 +32,6 @@ namespace Shooter
                 game.Bot.Shell = null;
             else if(this is Bullet)
                 game.Human.Shell = null;
-
         }
 
         //public abstract PointF GetValidMove(PointF location, Game game);
