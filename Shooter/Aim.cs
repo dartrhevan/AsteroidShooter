@@ -18,6 +18,8 @@ namespace Shooter
             Velocity = velocity ?? Vector.Zero;
         }
 
+        public override void Disappear() => game.Bot.Shell = null;
+
         public override void Move()
         {
 

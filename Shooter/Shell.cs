@@ -26,14 +26,32 @@ namespace Shooter
                 location.Y + Height / 2);*/
         }
 
-        public void Disappear()
+        public abstract void Disappear();
+        /*
         {
             if (this is Aim)
                 game.Bot.Shell = null;
             else if(this is Bullet)
                 game.Human.Shell = null;
         }
+        */
 
+        public static void CheckCrash(Shell s1, Shell s2)
+        {
+            var d = GetDistance(s1, s2);
+            if (d < s1.Height / 2 + s2.Height / 2)
+            {
+                s1.Disappear();
+                s2.Disappear();
+            }
+        }
+
+        public static double GetDistance(Shell obj1, Shell obj2)
+        {
+            var center1 = obj1.GetCenter();
+            var center2 = obj2.GetCenter();
+            return Game.GetDistance(center1, center2);
+        }
         //public abstract PointF GetValidMove(PointF location, Game game);
 
     }

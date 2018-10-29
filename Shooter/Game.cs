@@ -41,9 +41,11 @@ namespace Shooter
 
         public void Act()
         {
-            //Bot.Shoot();
+            Bot.Shoot();
             Human.Shell?.Move();
             Bot.Shell?.Move();
+            if(Bot.Shell != null && Human.Shell != null)
+                Shell.CheckCrash(Human.Shell, Bot.Shell);
         }
 
         public static double GetDistance(double dx, double dy) =>
@@ -54,6 +56,8 @@ namespace Shooter
 
         public static double GetDistance(PointF d1, PointF d2) =>
             GetDistance(d1.X - d2.X, d1.Y - d2.Y);
+
+        
     }
 
 

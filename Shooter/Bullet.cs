@@ -15,12 +15,14 @@ namespace Shooter
             Velocity = velocity ?? Vector.Zero;
         }
 
+        public override void Disappear() => game.Human.Shell = null;
+
         public override void Move()
         {
             Location = new PointF((float)(Location.X + Velocity.X), (float)(Location.Y + Velocity.Y));
             var center = GetCenter();
-            if (center.X > game.Width || center.X < 0 || center.Y > game.Height || center.Y < 0
-                )
+
+            if (center.X > game.Width || center.X < 0 || center.Y > game.Height || center.Y < 0)
                 Disappear();
         }
     }

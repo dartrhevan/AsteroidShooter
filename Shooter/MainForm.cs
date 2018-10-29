@@ -39,9 +39,6 @@ namespace Shooter
                 case 'w':
                     game.Human.Shoot();
                     break;
-                case 's':
-                    game.Bot.Shoot();
-                    break;
             }
         }
 
