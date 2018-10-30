@@ -20,7 +20,7 @@ namespace Shooter
         protected Line line;
         private double angle;
         protected readonly Game game;
-        public double ShellVelocity = 10;
+        public double ShellVelocity = 5;
         public Shell Shell;
         //private readonly Func<Game, PointF> getLocation;
 

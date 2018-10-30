@@ -4,6 +4,19 @@ namespace Shooter
 {
     public class Human : Player
     {
+        private uint life = 5;
+
+        public uint Life
+        {
+            get => life;
+            set
+            {
+                //if(value == 0) game.
+                life = value;
+            }
+        }
+
+        public uint Scores { get; set; }
         public Human(Game game) :  base(game)
         {
             ShellVelocity = 50;

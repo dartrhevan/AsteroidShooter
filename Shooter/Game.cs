@@ -7,6 +7,7 @@ namespace Shooter
     {
         private int width;
         private int height;
+        private int s = 0;
 
         public int Height
         {
@@ -32,8 +33,10 @@ namespace Shooter
         public Human Human { get; private set; }
         public Bot Bot { get; private set; }
 
-        public Game()
+        public Game(int width, int height)
         {
+            this.width = width;
+            this.height = height;
             Human = new Human(this);
             Bot = new Bot(this);
 
@@ -44,8 +47,32 @@ namespace Shooter
             Bot.Shoot();
             Human.Shell?.Move();
             Bot.Shell?.Move();
-            if(Bot.Shell != null && Human.Shell != null)
-                Shell.CheckCrash(Human.Shell, Bot.Shell);
+            if (Bot.Shell != null && Human.Shell != null)
+            {
+                CheckCrash(Human.Shell, Bot.Shell);
+            }
+            if (Bot.Shell != null)
+            {
+                if (Bot.Shell.Location.Y <= Bot.Shell.Height + s)
+                {
+                    Human.Life--;
+                    Bot.Shell.Disappear();
+                }
+            }
+
+        }
+
+        public void CheckCrash(Shell s1, Shell s2)
+        {
+            var d = Shell.GetDistance(s1, s2);
+            if (d < s1.Height / 2 + s2.Height / 2)
+            {
+                s1.Disappear();
+                s2.Disappear();
+                Human.Scores++;
+                if (Human.Scores % 5 == 0)
+                    Bot.ShellVelocity++;
+            }
         }
 
         public static double GetDistance(double dx, double dy) =>

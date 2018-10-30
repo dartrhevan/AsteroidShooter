@@ -36,15 +36,7 @@ namespace Shooter
         }
         */
 
-        public static void CheckCrash(Shell s1, Shell s2)
-        {
-            var d = GetDistance(s1, s2);
-            if (d < s1.Height / 2 + s2.Height / 2)
-            {
-                s1.Disappear();
-                s2.Disappear();
-            }
-        }
+        
 
         public static double GetDistance(Shell obj1, Shell obj2)
         {
