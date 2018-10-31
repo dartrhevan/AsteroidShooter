@@ -20,15 +20,25 @@ namespace Shooter
                 @"Controls:
 w - shoot,
 a - turn right,
-d - turn left
-p - pause", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
+d - turn left,
+p - pause,
+r - restart", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
             status = new Rectangle(new Point(0, Height), new Size(Width, 60));
             DoubleBuffered = true;
+            BackColor = Color.DarkGreen;
             game = new Game(Width, Height);
             MinimumSize = new Size(400, 600);
             timer = new Timer { Interval = 4};
             timer.Tick += (sender, args) =>
             {
+
+                if (game.Human.Life == 0)
+                {
+                    Restart();
+                    Pause();
+                    MessageBox.Show("Game over, your result is {Human.Scores}", "Game over", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
                 game.Act();
                 Invalidate();
             };
@@ -65,7 +75,7 @@ p - pause", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else timer.Start();
         }
 
-        void Restart() => game = new Game(Width, Height);
+        void Restart() => game.Restart();
         
         protected override void OnPaint(PaintEventArgs e)
         {

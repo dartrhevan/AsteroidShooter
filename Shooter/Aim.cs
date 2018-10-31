@@ -11,7 +11,7 @@ namespace Shooter
         public Aim(PointF location, Game g, Vector velocity, int height = 40, int width = 40)
         {
             game = g;
-            Brush = Brushes.Black;
+            Brush = Brushes.Gray;
             Width = width;
             Height = height;
             Location = location;

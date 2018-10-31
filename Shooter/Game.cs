@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Shooter
 {
@@ -7,7 +8,7 @@ namespace Shooter
     {
         private int width;
         private int height;
-        private int s = 0;
+        //private int s = 0;
 
         public int Height
         {
@@ -19,6 +20,7 @@ namespace Shooter
 
             }
         }
+
 
         public int Width
         {
@@ -42,6 +44,12 @@ namespace Shooter
 
         }
 
+        public void Restart()
+        {
+            Human = new Human(this);
+            Bot = new Bot(this);
+        }
+
         public void Act()
         {
             Bot.Shoot();
@@ -53,7 +61,7 @@ namespace Shooter
             }
             if (Bot.Shell != null)
             {
-                if (Bot.Shell.Location.Y <= Bot.Shell.Height + s)
+                if (Bot.Shell.Location.Y <= Bot.Shell.Height)
                 {
                     Human.Life--;
                     Bot.Shell.Disappear();
@@ -77,29 +85,17 @@ namespace Shooter
 
         public static double GetDistance(double dx, double dy) =>
             Math.Sqrt(dx * dx + dy * dy);
-
-        public static double GetDistance(Point d1, Point d2) =>
-            GetDistance(d1.X - d2.X, d1.Y - d2.Y);
-
+        
         public static double GetDistance(PointF d1, PointF d2) =>
             GetDistance(d1.X - d2.X, d1.Y - d2.Y);
 
         
     }
 
-
-    public static class VectorExtension
-    {
-        public static bool IsCoDirectional(this Vector vector, Vector otherVector) =>
-            (vector.X > 0 && otherVector.X > 0) || (vector.X < 0 && otherVector.X < 0);
-    }
-
+    
     public static class PointFExtension
     {
         public static PointF Convert(this PointF point, float height) =>
             new PointF(point.X, height - point.Y);
-
-        public static Point Convert(this Point point, int height) =>
-            new Point(point.X, height - point.Y);
     }
 }

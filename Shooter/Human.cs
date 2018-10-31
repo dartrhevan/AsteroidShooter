@@ -1,20 +1,11 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace Shooter
 {
     public class Human : Player
     {
-        private uint life = 5;
-
-        public uint Life
-        {
-            get => life;
-            set
-            {
-                //if(value == 0) game.
-                life = value;
-            }
-        }
+        public uint Life { get; set; } = 5;
 
         public uint Scores { get; set; }
         public Human(Game game) :  base(game)

@@ -16,7 +16,7 @@ namespace Shooter
         }
         public PointF Location { get; private set; }
         //private bool isShoot = false;
-        private double dAngle = 0.03;
+        private double dAngle = 0.05;
         protected Line line;
         private double angle;
         protected readonly Game game;
