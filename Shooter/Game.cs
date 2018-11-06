@@ -9,7 +9,7 @@ namespace Shooter
         private int width;
         private int height;
         //private int s = 0;
-
+        public static uint MaxScores { get; set; }
         public int Height
         {
             get => height;
@@ -35,7 +35,7 @@ namespace Shooter
         public Human Human { get; private set; }
         public Bot Bot { get; private set; }
 
-        public Game(int width, int height)
+        public Game(int width = 400, int height = 600)
         {
             this.width = width;
             this.height = height;
@@ -56,31 +56,36 @@ namespace Shooter
             Human.Shell?.Move();
             Bot.Shell?.Move();
             if (Bot.Shell != null && Human.Shell != null)
-            {
                 CheckCrash(Human.Shell, Bot.Shell);
-            }
-            if (Bot.Shell != null)
-            {
-                if (Bot.Shell.Location.Y <= Bot.Shell.Height)
-                {
-                    Human.Life--;
-                    Bot.Shell.Disappear();
-                }
-            }
-
+            CheckMissing();
         }
 
-        public void CheckCrash(Shell s1, Shell s2)
+        public bool CheckMissing()
+        {
+            if (Bot.Shell != null && Bot.Shell.Location.Y <= Bot.Shell.Height)
+            {
+                Human.Life--;
+                Bot.Shell.Disappear();
+                return true;
+            }
+
+            return false;
+        }
+
+        private const uint s = 3;
+        public bool CheckCrash(Shell s1, Shell s2)
         {
             var d = Shell.GetDistance(s1, s2);
-            if (d < s1.Height / 2 + s2.Height / 2)
+            if (d < s1.Height / 2 + s2.Height / 2 + s)
             {
                 s1.Disappear();
                 s2.Disappear();
                 Human.Scores++;
                 if (Human.Scores % 5 == 0)
                     Bot.ShellVelocity++;
+                return true;
             }
+            return false;
         }
 
         public static double GetDistance(double dx, double dy) =>

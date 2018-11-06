@@ -5,6 +5,18 @@ namespace Shooter
 {
     public class Bot : Player
     {
+        private Shell shell;
+
+        public override Shell Shell
+        {
+            get => shell;
+            set
+            {
+                if (value != null && !(value is Aim)) throw new ArgumentException("Shell does not match! Shell must be aim");
+                shell = value;
+            }
+        }
+
         public Bot(Game game) : base(game)
         {
         }

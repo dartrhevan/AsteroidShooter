@@ -22,7 +22,9 @@ w - shoot,
 a - turn right,
 d - turn left,
 p - pause,
-r - restart", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
+r - restart,
+z - fast turn left,
+x - fast turn right", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
             status = new Rectangle(new Point(0, Height), new Size(Width, 60));
             DoubleBuffered = true;
             BackColor = Color.DarkGreen;
@@ -34,9 +36,10 @@ r - restart", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 if (game.Human.Life == 0)
                 {
+                    var s = game.Human.Scores;
                     Restart();
                     Pause();
-                    MessageBox.Show("Game over, your result is {Human.Scores}", "Game over", MessageBoxButtons.OK,
+                    MessageBox.Show(string.Format("Game over, your result is {0}", s), "Game over", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
                 game.Act();
@@ -48,21 +51,34 @@ r - restart", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
-            switch (e.KeyChar)
+            switch (char.ToLower(e.KeyChar))
             {
                 case 'a':
+                case 'ф':
                     game.Human.TurnLeft();
                     break;
                 case 'd':
+                case 'в':
                     game.Human.TurnRight();
                     break;
                 case 'w':
+                case 'ц':
                     game.Human.Shoot();
                     break;
+                case 'z':
+                case 'я':
+                    game.Human.AtLeft();
+                    break;
+                case 'x':
+                case 'ч':
+                    game.Human.AtRight();
+                    break;
                 case 'p':
+                case 'з':
                     Pause();
                     break;
                 case 'r':
+                case 'к':
                     Restart();
                     break;
 
@@ -103,7 +119,7 @@ r - restart", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         void DrawLifes(Graphics g)
         {
-            g.DrawString(string.Format("L: {0} S: {1}", game.Human.Life.ToString(), game.Human.Scores), new Font("Arial", 25), Brushes.DarkGreen, status, StringFormat.GenericTypographic);
+            g.DrawString(string.Format("L: {0} S: {1} MAX: {2}", game.Human.Life.ToString(), game.Human.Scores, Game.MaxScores), new Font("Arial", 22), Brushes.DarkGreen, status, StringFormat.GenericTypographic);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Shooter
                 Direction.X == double.NegativeInfinity) Direction.X = 0;*/
             
         }
-
+        /*
         public Line GetPerpendicular(PointF dot)
         {
             return new Line(-Direction.X / Direction.Y, dot);
@@ -65,20 +65,20 @@ namespace Shooter
                 y = other.Shift;
             }
             return new PointF((float)x, (float)y);
-        }
+        }*/
 
         /*public Point GetIntersectionPoint(Line other)
         {
             var point = GetIntersection(other);
             return new Point((int)point.X, (int)point.Y);
         }*/
-
+        /*
         public double GetDistance(PointF dot)
         {
             if (double.IsInfinity(AngleCoeficient)) return Math.Abs(dot.X - Dot.X);
             else if (AngleCoeficient == 0) return Math.Abs(dot.Y - Dot.Y);
             var perpendicular = GetPerpendicular(dot);
             return Game.GetDistance(dot, GetIntersection(perpendicular));
-        }
+        }*/
     }
 }

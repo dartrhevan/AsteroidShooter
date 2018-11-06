@@ -42,8 +42,11 @@
     <Compile Include="Bot.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Tests\GameTests.cs" />
+    <Compile Include="Tests\ShellTests.cs" />
     <Compile Include="Human.cs" />
     <Compile Include="Line.cs" />
+    <Compile Include="Tests\LineTests.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +57,9 @@
     <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\..\..\..\..\Documents\Учёба\OneDrive\Документы\Учёба\ulearn — копия\Проекты\TheAerohockeyGame\TheAerohockeyGame\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />

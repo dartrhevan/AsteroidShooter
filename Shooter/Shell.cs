@@ -5,7 +5,7 @@ namespace Shooter
     public abstract class Shell
     {
 
-        public PointF GetCenter() => new PointF(Location.X + Width / 2, Location.Y + Height / 2);
+        public PointF GetCenter() => new PointF(Location.X + Width / 2, Location.Y - Height / 2);
         public Brush Brush { get; protected set; }
         protected Game game;
         public Vector Velocity { get; protected set; }
