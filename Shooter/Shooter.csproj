@@ -39,21 +39,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bot.cs" />
-    <Compile Include="Bullet.cs" />
+    <Compile Include="Player\Bot.cs" />
+    <Compile Include="Shell\Bullet.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Tests\GameTests.cs" />
+    <Compile Include="Tests\PlayerTests.cs" />
     <Compile Include="Tests\ShellTests.cs" />
-    <Compile Include="Human.cs" />
+    <Compile Include="Player\Human.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="Tests\LineTests.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Player.cs" />
+    <Compile Include="Player\Player.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Aim.cs" />
-    <Compile Include="Shell.cs" />
+    <Compile Include="Shell\Aim.cs" />
+    <Compile Include="Shell\Shell.cs" />
     <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>

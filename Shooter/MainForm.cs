@@ -67,11 +67,11 @@ x - fast turn right", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Informati
                     break;
                 case 'z':
                 case 'я':
-                    game.Human.AtLeft();
+                    game.Human.FastTurnLeft();
                     break;
                 case 'x':
                 case 'ч':
-                    game.Human.AtRight();
+                    game.Human.FastTurnRight();
                     break;
                 case 'p':
                 case 'з':

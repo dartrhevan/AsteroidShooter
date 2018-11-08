@@ -43,12 +43,12 @@ namespace Shooter
 
         protected override Shell GetShell()
         {
-            var dir = line.Direction.Y > 0 ? line.Direction.Normalize() : -line.Direction.Normalize();
+            var dir = (line.Direction.Y > 0 ? line.Direction : -line.Direction).Normalize();
             return new Bullet(Location, game, dir * ShellVelocity);
         }
 
-        public void AtRight() => Angle = Math.PI / 3;
+        public void FastTurnRight() => Angle -= Math.PI / 3;
 
-        public void AtLeft() => Angle = 2 * Math.PI / 3;
+        public void FastTurnLeft() => Angle += Math.PI / 3;
     }
 }
