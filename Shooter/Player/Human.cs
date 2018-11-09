@@ -47,8 +47,35 @@ namespace Shooter
             return new Bullet(Location, game, dir * ShellVelocity);
         }
 
-        public void FastTurnRight() => Angle -= Math.PI / 3;
+        public void FastTurnRight() => Angle -= (float)Math.PI / 3;
 
-        public void FastTurnLeft() => Angle += Math.PI / 3;
+        public void FastTurnLeft() => Angle += (float)Math.PI / 3; public void Draw(Graphics g)
+        {
+            var secondDot = new PointF((float)((game.Height - line.Shift) / line.AngleCoeficient), game.Height);
+            g.DrawLine(Pens.Black, line.Dot.Convert(game.Height), secondDot.Convert(game.Height));
+            DrawGun(g);
+        }
+
+
+        void DrawGun(Graphics g)
+        {
+            //UpadateSize();
+            float a = (float)((Math.PI / 2 - Angle) / Math.PI) * 180;
+            var windowLocation = Location.Convert(game.Height);
+            g.TranslateTransform(windowLocation.X, windowLocation.Y);
+            g.RotateTransform(a);
+            g.FillRectangle(Brushes.Gray, new RectangleF(-width / 2, -height, width, height * 2));
+            g.RotateTransform(-a);
+            g.TranslateTransform(-windowLocation.X, -windowLocation.Y);
+        }
+        /*
+        private void UpadateSize()
+        {
+            width = game.Width / 10;
+            height = 2 * width;
+        }*/
+
+        private int height = 40;
+        private int width = 20;
     }
 }

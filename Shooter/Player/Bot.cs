@@ -31,7 +31,7 @@ namespace Shooter
         void Rotate()
         {
             var rnd = new Random(DateTime.Now.Millisecond);
-            Angle = Math.Pow(-1, rnd.Next(2)) * rnd.NextDouble() * Math.PI / 2;
+            Angle = (float)(Math.Pow(-1, rnd.Next(2)) * rnd.NextDouble() * Math.PI / 2);
         }
 
         protected override PointF GetLocation() => new PointF(game.Width / 2, game.Height);

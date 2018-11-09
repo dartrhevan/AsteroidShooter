@@ -6,7 +6,7 @@ namespace Shooter
 {
     public abstract class Player
     {
-        public double Angle {
+        public float Angle {
             get => angle;
             protected set
             {
@@ -16,9 +16,9 @@ namespace Shooter
         }
         public PointF Location { get; private set; }
         //private bool isShoot = false;
-        private double dAngle = 0.05;
+        private float dAngle = 0.05f;
         protected Line line;
-        private double angle;
+        private float  angle;
         protected readonly Game game;
         public double ShellVelocity = 5;
         public abstract Shell Shell { get; set; }
@@ -48,10 +48,22 @@ namespace Shooter
 
         public void TurnLeft() => Angle += dAngle;
 
-        public void Draw(Graphics g)
-        {
-            var secondDot = new PointF((float) ((game.Height - line.Shift )/ line.AngleCoeficient), game.Height);
-            g.DrawLine(Pens.Black, line.Dot.Convert(game.Height), secondDot.Convert(game.Height));
-        }
+        //public void Draw(Graphics g)
+        //{
+        //    var secondDot = new PointF((float) ((game.Height - line.Shift )/ line.AngleCoeficient), game.Height);
+        //    g.DrawLine(Pens.Black, line.Dot.Convert(game.Height), secondDot.Convert(game.Height));
+        //    DrawGun(g);
+        //}
+
+
+        //void DrawGun(Graphics g)
+        //{
+        //    var windowLocation = Location.Convert(game.Height);
+        //    g.TranslateTransform(windowLocation.X / 2, windowLocation.Y);
+        //    g.RotateTransform(Angle);
+        //    g.DrawRectangle(Pens.Red, new Rectangle((int)windowLocation.X, (int)windowLocation.Y - 300, 50, 300));
+        //    g.RotateTransform(-Angle);
+        //    g.TranslateTransform(-windowLocation.X / 2, -windowLocation.Y);
+        //}
     }
 }
