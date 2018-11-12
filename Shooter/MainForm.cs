@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace Shooter
 {
@@ -13,21 +14,24 @@ namespace Shooter
         private Game game;
         private Timer timer;
         private Rectangle status;// = new RectangleF(new PointF(0, He), );
+
+        private FileInfo[] images;
+        private int imageNum = 0;
+        void ChangeTheme()
+        {
+            var image = images[imageNum++ % images.Length];
+            BackgroundImage = new Bitmap(image.FullName);
+        }
         //private bool pause = false;
         public MainForm()
         {
-            MessageBox.Show(
-                @"Controls:
-w - shoot,
-a - turn right,
-d - turn left,
-p - pause,
-r - restart,
-z - fast turn left,
-x - fast turn right", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
             status = new Rectangle(new Point(0, Height), new Size(Width, 60));
             DoubleBuffered = true;
-            BackColor = Color.DarkGreen;
+            //BackColor = Color.DarkGreen;
+            //BackgroundImage = new Bitmap("wall.png");
+            var p = new DirectoryInfo("Images");
+            images = p.EnumerateFiles().ToArray();
+            ChangeTheme();
             game = new Game(Width, Height);
             MinimumSize = new Size(400, 600);
             timer = new Timer { Interval = 4};
@@ -91,8 +95,12 @@ x - fast turn right", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Informati
             else timer.Start();
         }
 
-        void Restart() => game.Restart();
-        
+        void Restart()
+        {
+            game.Restart();
+            ChangeTheme();
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             UpdateGame(e);

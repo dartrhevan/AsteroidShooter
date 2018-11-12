@@ -21,7 +21,7 @@ namespace Shooter
         {
             var location = this.location.Convert(height);
             g.FillEllipse(Brush, location.X, location.Y, Width, Height);
-            g.DrawEllipse(new Pen(Color.Black, 4), location.X, location.Y, Width, Height);
+            //g.DrawEllipse(new Pen(Color.Black, 4), location.X, location.Y, Width, Height);
             /*g.DrawLine(new Pen(Color.Black, 6), location.X, location.Y + Height / 2, location.X + Width,
                 location.Y + Height / 2);*/
         }

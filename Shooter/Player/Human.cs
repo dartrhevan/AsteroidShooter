@@ -64,7 +64,16 @@ namespace Shooter
             var windowLocation = Location.Convert(game.Height);
             g.TranslateTransform(windowLocation.X, windowLocation.Y);
             g.RotateTransform(a);
-            g.FillRectangle(Brushes.Gray, new RectangleF(-width / 2, -height, width, height * 2));
+            var shift = (float)-width / 2;
+            var h = (float)height * 2;
+            g.FillRectangle(Brushes.Gray, new RectangleF(shift, -height, width, h));
+            shift = (float) -1.5 * width / 2;
+            
+            g.FillRectangle(Brushes.Black, new RectangleF(shift, -height / 2, (float)1.5 * width, h / 2));
+
+            //g.FillRectangle(Brushes.Black, new RectangleF(, -width * 2, 2 * width, width * 2));
+            //g.FillRectangle(Brushes.Gray, new RectangleF(-width / 2, -height, width, height * 2));
+
             g.RotateTransform(-a);
             g.TranslateTransform(-windowLocation.X, -windowLocation.Y);
         }
