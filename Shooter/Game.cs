@@ -8,6 +8,8 @@ namespace Shooter
     {
         private int width;
         private int height;
+        public PointF? BangPlace { get; set; }
+
         //private int s = 0;
         public static uint MaxScores { get; set; }
         public int Height

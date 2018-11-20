@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
@@ -17,6 +14,7 @@ namespace Shooter
 
         private FileInfo[] images;
         private int imageNum = 0;
+
         void ChangeTheme()
         {
             var image = images[imageNum++ % images.Length];
@@ -34,23 +32,23 @@ namespace Shooter
             ChangeTheme();
             game = new Game(Width, Height);
             MinimumSize = new Size(400, 600);
-            timer = new Timer { Interval = 4};
-            timer.Tick += (sender, args) =>
-            {
-
-                if (game.Human.Life == 0)
-                {
-                    var s = game.Human.Scores;
-                    Restart();
-                    Pause();
-                    MessageBox.Show(string.Format("Game over, your result is {0}", s), "Game over", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
-                game.Act();
-                Invalidate();
-            };
+            timer = new Timer { Interval = 5};
+            timer.Tick += OnTimerTick;
             timer.Start();
             FormBorderStyle = FormBorderStyle.Sizable;
+        }
+
+        private void OnTimerTick(object sender, EventArgs args)
+        {
+            if (game.Human.Life == 0)
+            {
+                var s = game.Human.Scores;
+                Restart();
+                Pause();
+                MessageBox.Show(string.Format("Game over, your result is {0}", s), "Game over", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            game.Act();
+            Invalidate();
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
@@ -101,6 +99,8 @@ namespace Shooter
             ChangeTheme();
         }
 
+        //public bool IsBang { get; set; }
+        private int bangTime = 15;
         protected override void OnPaint(PaintEventArgs e)
         {
             UpdateGame(e);
@@ -109,11 +109,20 @@ namespace Shooter
             game.Bot.Shell?.Draw(e.Graphics, game.Height);
             e.Graphics.FillRectangle(Brushes.Black, status);
             DrawLifes(e.Graphics);
+            if(game.BangPlace != null)
+            {
+                e.Graphics.DrawImage(new Bitmap("bang.png"), game.BangPlace.Value.Convert(game.Height));
+                if(--bangTime <= 0)
+                {
+                    bangTime = 15;
+                    game.BangPlace = null;
+                }
+            }
             /*
-            e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), new Size(100, 100)));
-            e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(
-            e.ClipRectangle.Width - 100,
-            e.ClipRectangle.Height - 100),new Size(100, 100)));*/
+e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), new Size(100, 100)));
+e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(
+e.ClipRectangle.Width - 100,
+e.ClipRectangle.Height - 100),new Size(100, 100)));*/
         }
 
         void UpdateGame(PaintEventArgs e)

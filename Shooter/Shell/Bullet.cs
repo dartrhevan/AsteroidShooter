@@ -8,7 +8,7 @@ namespace Shooter
         public Bullet(PointF location, Game g, Vector velocity, int height = 10, int width = 10)
         {
             game = g;
-            Brush = Brushes.DarkRed;
+            Brush =Brushes.Black;
             Width = width;
             Height = height;
             Location = location;

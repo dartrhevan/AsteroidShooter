@@ -11,14 +11,18 @@ namespace Shooter
         public Aim(PointF location, Game g, Vector velocity, int height = 40, int width = 40)
         {
             game = g;
-            Brush = Brushes.Navy;
+            Brush = Brushes.YellowGreen;
             Width = width;
             Height = height;
             Location = location;
             Velocity = velocity ?? Vector.Zero;
         }
 
-        public override void Disappear() => game.Bot.Shell = null;
+        public override void Disappear()
+        {
+            game.BangPlace = Location;
+            game.Bot.Shell = null;
+        }
 
         public override void Move()
         {

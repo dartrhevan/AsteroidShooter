@@ -66,10 +66,13 @@ namespace Shooter
             g.RotateTransform(a);
             var shift = (float)-width / 2;
             var h = (float)height * 2;
-            g.FillRectangle(Brushes.Gray, new RectangleF(shift, -height, width, h));
-            shift = (float) -1.5 * width / 2;
-            
-            g.FillRectangle(Brushes.Black, new RectangleF(shift, -height / 2, (float)1.5 * width, h / 2));
+            var shift2 = (float)-1.75 * width / 2;
+            g.FillRectangle(Brushes.SaddleBrown, new RectangleF(shift2, -height / 1.75f, (float)1.75 * width, h / 2));
+            g.FillRectangle(Brushes.Black, new RectangleF(shift, -height, width, h));
+            g.DrawLine(new Pen(Color.Black, 5f), shift - 4, height, - shift + 4, height);
+            g.DrawLine(new Pen(Color.Black, 5f), shift - 4, -height, -shift + 4, -height);
+            g.DrawLine(new Pen(Color.Black, 3f), shift - 2, height / 1.85f, -shift + 2, height / 1.85f);
+            g.DrawLine(new Pen(Color.Black, 3f), shift - 2, -height / 1.85f, -shift + 2, -height / 1.85f);
 
             //g.FillRectangle(Brushes.Black, new RectangleF(, -width * 2, 2 * width, width * 2));
             //g.FillRectangle(Brushes.Gray, new RectangleF(-width / 2, -height, width, height * 2));
@@ -84,7 +87,7 @@ namespace Shooter
             height = 2 * width;
         }*/
 
-        private int height = 40;
+        private int height = 60;
         private int width = 20;
     }
 }
