@@ -40,6 +40,13 @@ namespace Shooter
 
         private void OnTimerTick(object sender, EventArgs args)
         {
+            if(left)
+                game.Human.TurnLeft();
+            if(right)
+                game.Human.TurnRight();
+            if(shoot)
+                game.Human.Shoot();
+
             if (game.Human.Life == 0)
             {
                 var s = game.Human.Scores;
@@ -51,10 +58,40 @@ namespace Shooter
             Invalidate();
         }
 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            HandleKeys(e, true);
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            HandleKeys(e, false);
+        }
+
+        private bool left;
+        private bool right;
+        private bool shoot;
+
+        private void HandleKeys(KeyEventArgs e, bool flag)
+        {
+            if (e.KeyCode == Keys.A)
+                left = flag;
+                //game.Human.TurnLeft();
+            if (e.KeyCode == Keys.D)
+                right = flag;
+            //game.Human.TurnRight();
+            if (e.KeyCode == Keys.W)
+                shoot = flag;
+
+            //game.Human.Shoot();
+        }
+
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             switch (char.ToLower(e.KeyChar))
-            {
+            {/*
                 case 'a':
                 case 'ф':
                     game.Human.TurnLeft();
@@ -74,7 +111,7 @@ namespace Shooter
                 case 'x':
                 case 'ч':
                     game.Human.FastTurnRight();
-                    break;
+                    break;*/
                 case 'p':
                 case 'з':
                     Pause();
