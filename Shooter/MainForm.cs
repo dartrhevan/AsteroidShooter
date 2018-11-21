@@ -135,6 +135,7 @@ namespace Shooter
             game.Restart();
             ChangeTheme();
             left = right = shoot = false;
+
         }
 
         //public bool IsBang { get; set; }
@@ -150,6 +151,7 @@ namespace Shooter
             e.Graphics.FillRectangle(Brushes.Black, status);
             DrawLifes(e.Graphics);
             DrawBang(e.Graphics);
+            DrawLevel(e.Graphics);
             /*
 e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), new Size(100, 100)));
 e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(
@@ -162,8 +164,8 @@ e.ClipRectangle.Height - 100),new Size(100, 100)));*/
             if (game.BangPlace != null)
             {
                 var bangLocation = game.BangPlace.Value.Convert(game.Height);
-                var dx = bangLocation.X + bangImage.Width / 2 - 5;
-                var dy = bangLocation.Y + bangImage.Height / 2 - 5;
+                var dx = bangLocation.X + bangImage.Width / 2;
+                var dy = bangLocation.Y + bangImage.Height / 2;
                 g.TranslateTransform(dx, dy);
                 g.RotateTransform((float)(bangTime * Math.PI / 4));
                 g.DrawImage(bangImage, new Point(0, 0));
@@ -177,10 +179,17 @@ e.ClipRectangle.Height - 100),new Size(100, 100)));*/
             }
         }
 
+        void DrawLevel(Graphics g)
+        {
+            var x = (new PointF(0, game.Level)).Convert(game.Height);
+            var y = (new PointF(game.Width, game.Level)).Convert(game.Height);
+            g.DrawLine(Pens.Red, x, y);
+        }
+
         void UpdateGame(PaintEventArgs e)
         {
-            status.Location = new Point(0, e.ClipRectangle.Height - 60);
-            status.Size = new Size(Width, 60);
+            status.Location = new Point(0, e.ClipRectangle.Height - 40);
+            status.Size = new Size(Width, 40);
             game.Height = e.ClipRectangle.Height - status.Height;
             game.Width = e.ClipRectangle.Width;
             //game.Player.InitLine(game);

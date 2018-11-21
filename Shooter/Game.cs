@@ -10,6 +10,7 @@ namespace Shooter
         private int height;
         public PointF? BangPlace { get; set; }
 
+        public int Level { get; set; }
         //private int s = 0;
         public static uint MaxScores { get; set; }
         public int Height
@@ -39,6 +40,7 @@ namespace Shooter
 
         public Game(int width = 400, int height = 600)
         {
+            Level = 0;
             this.width = width;
             this.height = height;
             Human = new Human(this);
@@ -50,6 +52,7 @@ namespace Shooter
         {
             Human = new Human(this);
             Bot = new Bot(this);
+            Level = 0;
         }
 
         public void Act()
@@ -64,7 +67,7 @@ namespace Shooter
 
         public bool CheckMissing()
         {
-            if (Bot.Shell != null && Bot.Shell.Location.Y <= Bot.Shell.Height)
+            if (Bot.Shell != null && Bot.Shell.Location.Y <= Level + Bot.Shell.Height)
             {
                 Human.Life--;
                 Bot.Shell.Disappear();

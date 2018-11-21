@@ -6,9 +6,9 @@ namespace Shooter
     public class Aim : Shell
     {
         //public Vector Velocity;
+        public const int StandartHeight = 40;
 
-
-        public Aim(PointF location, Game g, Vector velocity, int height = 40, int width = 40)
+        public Aim(PointF location, Game g, Vector velocity, int height = StandartHeight, int width = StandartHeight)
         {
             game = g;
             Brush = Brushes.YellowGreen;

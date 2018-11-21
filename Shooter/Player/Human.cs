@@ -34,7 +34,13 @@ namespace Shooter
             {
                 if (value > Game.MaxScores)
                     Game.MaxScores = value;
-                if (value % 10 == 0) Ammo += 20;
+                if (value % 10 == 0)
+                {
+                    if(game.Height > game.Level + 2 * Aim.StandartHeight)
+                        game.Level += game.Height / 5;
+                    Ammo += 20;
+                }
+
                 scores = value;
             }
         }
