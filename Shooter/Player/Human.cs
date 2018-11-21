@@ -7,7 +7,23 @@ namespace Shooter
     {
         private uint scores;
         private Shell shell;
-        public Human(Game game) : base(game) => ShellVelocity = 49;
+
+        public int Ammo
+        {
+            get => ammo;
+            private set
+            {
+                ammo = value;
+                if (ammo <= 0)
+                    Life = 0;
+            }
+        }
+
+        public Human(Game game) : base(game)
+        {
+            Ammo = 20;
+            ShellVelocity = 49;
+        }
 
         public uint Life { get; set; } = 5;
 
@@ -18,6 +34,7 @@ namespace Shooter
             {
                 if (value > Game.MaxScores)
                     Game.MaxScores = value;
+                if (value % 10 == 0) Ammo += 20;
                 scores = value;
             }
         }
@@ -36,7 +53,10 @@ namespace Shooter
         {
             UpdateLine();
             if (Shell == null)
+            {
+                --Ammo;
                 Shell = GetShell();
+            }
         }
 
         protected override PointF GetLocation() => new PointF(game.Width / 2, 0);
@@ -89,5 +109,6 @@ namespace Shooter
 
         private int height = 60;
         private int width = 20;
+        private int ammo;
     }
 }

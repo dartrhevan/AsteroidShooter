@@ -8,11 +8,11 @@ namespace Shooter
 {
     class MainForm : Form
     {
-        private Game game;
-        private Timer timer;
+        private readonly Game game;
+        private readonly Timer timer;
         private Rectangle status;// = new RectangleF(new PointF(0, He), );
 
-        private FileInfo[] images;
+        private readonly FileInfo[] images;
         private int imageNum = 0;
 
         void ChangeTheme()
@@ -32,10 +32,11 @@ namespace Shooter
             ChangeTheme();
             game = new Game(Width, Height);
             MinimumSize = new Size(400, 600);
-            timer = new Timer { Interval = 5};
+            timer = new Timer { Interval = 10};
             timer.Tick += OnTimerTick;
             timer.Start();
             FormBorderStyle = FormBorderStyle.Sizable;
+            bangImage = new Bitmap("bang.png");
         }
 
         private void OnTimerTick(object sender, EventArgs args)
@@ -46,8 +47,7 @@ namespace Shooter
                 game.Human.TurnRight();
             if(shoot)
                 game.Human.Shoot();
-
-            if (game.Human.Life == 0)
+            if (game.Human.Life <= 0)
             {
                 var s = game.Human.Scores;
                 Restart();
@@ -78,16 +78,16 @@ namespace Shooter
         {
             if (e.KeyCode == Keys.A)
                 left = flag;
-                //game.Human.TurnLeft();
             if (e.KeyCode == Keys.D)
                 right = flag;
-            //game.Human.TurnRight();
             if (e.KeyCode == Keys.W)
-                shoot = flag;
-
-            //game.Human.Shoot();
+                shoot = flag;/*
+            if(e.KeyCode == Keys.P)
+                Pause();
+            if (e.KeyCode == Keys.R)
+                Restart();*/
         }
-
+        
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             switch (char.ToLower(e.KeyChar))
@@ -134,10 +134,13 @@ namespace Shooter
         {
             game.Restart();
             ChangeTheme();
+            left = right = shoot = false;
         }
 
         //public bool IsBang { get; set; }
         private int bangTime = 15;
+        private readonly Bitmap bangImage;
+
         protected override void OnPaint(PaintEventArgs e)
         {
             UpdateGame(e);
@@ -146,20 +149,32 @@ namespace Shooter
             game.Bot.Shell?.Draw(e.Graphics, game.Height);
             e.Graphics.FillRectangle(Brushes.Black, status);
             DrawLifes(e.Graphics);
-            if(game.BangPlace != null)
-            {
-                e.Graphics.DrawImage(new Bitmap("bang.png"), game.BangPlace.Value.Convert(game.Height));
-                if(--bangTime <= 0)
-                {
-                    bangTime = 15;
-                    game.BangPlace = null;
-                }
-            }
+            DrawBang(e.Graphics);
             /*
 e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), new Size(100, 100)));
 e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(
 e.ClipRectangle.Width - 100,
 e.ClipRectangle.Height - 100),new Size(100, 100)));*/
+        }
+
+        private void DrawBang(Graphics g)
+        {
+            if (game.BangPlace != null)
+            {
+                var bangLocation = game.BangPlace.Value.Convert(game.Height);
+                var dx = bangLocation.X + bangImage.Width / 2 - 5;
+                var dy = bangLocation.Y + bangImage.Height / 2 - 5;
+                g.TranslateTransform(dx, dy);
+                g.RotateTransform((float)(bangTime * Math.PI / 4));
+                g.DrawImage(bangImage, new Point(0, 0));
+                g.RotateTransform((float)(-bangTime * Math.PI / 4));
+                g.TranslateTransform(-dx, -dy);
+                if (--bangTime <= 0)
+                {
+                    bangTime = 15;
+                    game.BangPlace = null;
+                }
+            }
         }
 
         void UpdateGame(PaintEventArgs e)
@@ -173,7 +188,9 @@ e.ClipRectangle.Height - 100),new Size(100, 100)));*/
 
         void DrawLifes(Graphics g)
         {
-            g.DrawString(string.Format("L: {0} S: {1} MAX: {2}", game.Human.Life.ToString(), game.Human.Scores, Game.MaxScores), new Font("Arial", 22), Brushes.DarkGreen, status, StringFormat.GenericTypographic);
+            g.DrawString(string.Format("L: {0} S: {1} MAX: {2} A: {3}", game.Human.Life.ToString()
+                , game.Human.Scores, Game.MaxScores, game.Human.Ammo), new Font("Arial", 22), Brushes.DarkGreen,
+                status, StringFormat.GenericTypographic);
         }
     }
 }
