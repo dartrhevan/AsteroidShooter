@@ -66,12 +66,5 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="bang.png" />
-    <Content Include="Images\Grass.png" />
-    <Content Include="Images\Path.png" />
-    <Content Include="Images\Terrain.png" />
-    <Content Include="Images\wall.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

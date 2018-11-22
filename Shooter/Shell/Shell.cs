@@ -17,7 +17,7 @@ namespace Shooter
         public PointF Location { get => location; set => location = value; }
 
         public abstract void Move();
-        public void Draw(Graphics g, int height)
+        public virtual void Draw(Graphics g, int height)
         {
             var location = this.location.Convert(height);
             g.FillEllipse(Brush, location.X, location.Y, Width, Height);

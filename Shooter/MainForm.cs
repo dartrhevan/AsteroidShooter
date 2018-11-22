@@ -27,7 +27,7 @@ namespace Shooter
             DoubleBuffered = true;
             //BackColor = Color.DarkGreen;
             //BackgroundImage = new Bitmap("wall.png");
-            var p = new DirectoryInfo("Images");
+            var p = new DirectoryInfo("Images/Themes");
             images = p.EnumerateFiles().ToArray();
             ChangeTheme();
             game = new Game(Width, Height);
@@ -36,7 +36,7 @@ namespace Shooter
             timer.Tick += OnTimerTick;
             timer.Start();
             FormBorderStyle = FormBorderStyle.Sizable;
-            bangImage = new Bitmap("bang.png");
+            bangImage = new Bitmap("Images/bang.png");
         }
 
         private void OnTimerTick(object sender, EventArgs args)
@@ -150,8 +150,8 @@ namespace Shooter
             game.Bot.Shell?.Draw(e.Graphics, game.Height);
             e.Graphics.FillRectangle(Brushes.Black, status);
             DrawLifes(e.Graphics);
-            DrawBang(e.Graphics);
             DrawLevel(e.Graphics);
+            DrawBang(e.Graphics);
             /*
 e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), new Size(100, 100)));
 e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(
@@ -161,15 +161,17 @@ e.ClipRectangle.Height - 100),new Size(100, 100)));*/
 
         private void DrawBang(Graphics g)
         {
+            var r = new Random(DateTime.Now.Millisecond);
             if (game.BangPlace != null)
             {
+                var a = (float) (2 * r.NextDouble() * Math.PI);
                 var bangLocation = game.BangPlace.Value.Convert(game.Height);
                 var dx = bangLocation.X + bangImage.Width / 2;
                 var dy = bangLocation.Y + bangImage.Height / 2;
                 g.TranslateTransform(dx, dy);
-                g.RotateTransform((float)(bangTime * Math.PI / 4));
+                g.RotateTransform(a);
                 g.DrawImage(bangImage, new Point(0, 0));
-                g.RotateTransform((float)(-bangTime * Math.PI / 4));
+                g.RotateTransform(-a);
                 g.TranslateTransform(-dx, -dy);
                 if (--bangTime <= 0)
                 {

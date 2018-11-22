@@ -5,13 +5,16 @@ namespace Shooter
 {
     public class Aim : Shell
     {
+        readonly Bitmap Image;
+
         //public Vector Velocity;
         public const int StandartHeight = 40;
 
         public Aim(PointF location, Game g, Vector velocity, int height = StandartHeight, int width = StandartHeight)
         {
             game = g;
-            Brush = Brushes.YellowGreen;
+            Image = new Bitmap("Images/Aim.png");
+            Brush = new TextureBrush(Image);//Brushes.YellowGreen;
             Width = width;
             Height = height;
             Location = location;
@@ -22,6 +25,13 @@ namespace Shooter
         {
             game.BangPlace = Location;
             game.Bot.Shell = null;
+        }
+
+        public override void Draw(Graphics g, int height)
+        {
+            var location = this.location.Convert(height);
+            g.DrawImage(Image, location);
+            //g.FillEllipse(Brush, location.X, location.Y, Width, Height);
         }
 
         public override void Move()
