@@ -39,6 +39,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Player\Bot.cs" />
     <Compile Include="Shell\Bullet.cs" />
     <Compile Include="Game.cs" />

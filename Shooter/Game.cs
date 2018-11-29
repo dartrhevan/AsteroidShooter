@@ -9,6 +9,12 @@ namespace Shooter
         private int width;
         private int height;
         public PointF? BangPlace { get; set; }
+        public bool IsAmmo { get; set; } = true;
+
+        public bool IsSight { get; set; } = true;
+        public bool IsLevel { get; set; } = true;
+        public bool IsFastTurn { get; set; } = false;
+        public bool IsFastMode { get; set; } = false;
 
         public int Level { get; set; }
         //private int s = 0;
@@ -107,5 +113,8 @@ namespace Shooter
     {
         public static PointF Convert(this PointF point, float height) =>
             new PointF(point.X, height - point.Y);
+        public static Point Convert(this Point point, int height) =>
+            new Point(point.X, height - point.Y);
+
     }
 }

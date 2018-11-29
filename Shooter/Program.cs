@@ -1,20 +1,20 @@
-﻿using System.Net.Mime;
+﻿using System;
+using System.Net.Mime;
 using System.Windows.Forms;
 namespace Shooter
 {
     public class Program
     {
+        [STAThread]
         public static void Main()
         {
-            MessageBox.Show(
+            /*MessageBox.Show(
                 @"Controls:
 w - shoot,
 a - turn right,
 d - turn left,
 p - pause,
-r - restart,
-z - fast turn left,
-x - fast turn right", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
+r - restart", "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);*/
 
             Application.Run(new MainForm());
         }

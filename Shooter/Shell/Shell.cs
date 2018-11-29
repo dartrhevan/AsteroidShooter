@@ -6,7 +6,6 @@ namespace Shooter
     {
 
         public PointF GetCenter() => new PointF(Location.X + Width / 2, Location.Y - Height / 2);
-        public Brush Brush { get; protected set; }
         protected Game game;
         public Vector Velocity { get; protected set; }
         protected PointF location;
@@ -17,14 +16,8 @@ namespace Shooter
         public PointF Location { get => location; set => location = value; }
 
         public abstract void Move();
-        public virtual void Draw(Graphics g, int height)
-        {
-            var location = this.location.Convert(height);
-            g.FillEllipse(Brush, location.X, location.Y, Width, Height);
-            //g.DrawEllipse(new Pen(Color.Black, 4), location.X, location.Y, Width, Height);
-            /*g.DrawLine(new Pen(Color.Black, 6), location.X, location.Y + Height / 2, location.X + Width,
-                location.Y + Height / 2);*/
-        }
+        public abstract void Draw(Graphics g, int height);
+
 
         public abstract void Disappear();
         /*

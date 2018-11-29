@@ -6,7 +6,8 @@ namespace Shooter
 {
     public abstract class Player
     {
-        public float Angle {
+        public float Angle
+        {
             get => angle;
             protected set
             {
@@ -16,7 +17,6 @@ namespace Shooter
         }
         public PointF Location { get; private set; }
         //private bool isShoot = false;
-        private float dAngle = 0.05f;
         protected Line line;
         private float  angle;
         protected readonly Game game;
@@ -44,9 +44,6 @@ namespace Shooter
         public abstract void Shoot();
 
 
-        public void TurnRight() => Angle -= dAngle;
-
-        public void TurnLeft() => Angle += dAngle;
 
         //public void Draw(Graphics g)
         //{

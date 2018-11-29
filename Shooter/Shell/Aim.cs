@@ -14,7 +14,7 @@ namespace Shooter
         {
             game = g;
             Image = new Bitmap("Images/Aim.png");
-            Brush = new TextureBrush(Image);//Brushes.YellowGreen;
+            //Brush = new TextureBrush(Image);//Brushes.YellowGreen;
             Width = width;
             Height = height;
             Location = location;

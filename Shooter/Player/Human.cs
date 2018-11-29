@@ -25,7 +25,8 @@ namespace Shooter
             ShellVelocity = 49;
         }
 
-        public uint Life { get; set; } = 5;
+        public uint Life { get; set; } 
+            = 5;
 
         public uint Scores
         {
@@ -36,7 +37,7 @@ namespace Shooter
                     Game.MaxScores = value;
                 if (value % 10 == 0)
                 {
-                    if(game.Height > game.Level + 2 * Aim.StandartHeight)
+                    if(game.Height > game.Level + 2 * Aim.StandartHeight && game.IsLevel)
                         game.Level += game.Height / 5;
                     Ammo += 20;
                 }
@@ -60,7 +61,8 @@ namespace Shooter
             UpdateLine();
             if (Shell == null)
             {
-                --Ammo;
+                if(game.IsAmmo)
+                    --Ammo;
                 Shell = GetShell();
             }
         }
@@ -73,15 +75,32 @@ namespace Shooter
             return new Bullet(Location, game, dir * ShellVelocity);
         }
 
-        public void FastTurnRight() => Angle -= (float)Math.PI / 3;
+        public void FastTurnRight()
+        {
+            if (game.IsFastMode || game.IsFastTurn)
+                Angle -= (float) Math.PI / 3;
+        }
 
-        public void FastTurnLeft() => Angle += (float)Math.PI / 3; public void Draw(Graphics g)
+        public void FastTurnLeft()
+        {
+            if (game.IsFastMode || game.IsFastTurn)
+                Angle += (float)Math.PI / 3;
+        }
+
+        public void Draw(Graphics g)
         {
             var secondDot = new PointF((float)((game.Height - line.Shift) / line.AngleCoeficient), game.Height);
-            g.DrawLine(Pens.Black, line.Dot.Convert(game.Height), secondDot.Convert(game.Height));
+            if(game.IsSight)
+                g.DrawLine(Pens.Red, line.Dot.Convert(game.Height), secondDot.Convert(game.Height));
             DrawGun(g);
         }
 
+        private float dAngle = 0.05f;
+
+
+        public void TurnRight() => Angle -= dAngle;
+
+        public void TurnLeft() => Angle += dAngle;
 
         void DrawGun(Graphics g)
         {

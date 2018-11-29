@@ -1,117 +1,139 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Drawing;
-using System.IO;
 
 namespace Shooter
 {
-    class MainForm : Form
+    internal class MainForm : Form
     {
+        private readonly Bitmap bangImage;
         private readonly Game game;
-        private readonly Timer timer;
-        private Rectangle status;// = new RectangleF(new PointF(0, He), );
-
         private readonly FileInfo[] images;
-        private int imageNum = 0;
+        private readonly Button optionsButton = new Button();
+        private readonly Menu optionsPanel = new Menu();
+        private readonly Timer timer;
+        
+        private int bangTime = 15;
 
-        void ChangeTheme()
-        {
-            var image = images[imageNum++ % images.Length];
-            BackgroundImage = new Bitmap(image.FullName);
-        }
-        //private bool pause = false;
+        private int imageNum;
+
+        private bool left;
+        //private bool needUpadateOptions;
+
+        private bool pause;
+        private bool right;
+        //private bool shoot;
+        private Rectangle status;
+
         public MainForm()
         {
-            status = new Rectangle(new Point(0, Height), new Size(Width, 60));
+            KeyPreview = true;
+            status = new Rectangle(new Point(0, Height), new Size(Width, 40));
             DoubleBuffered = true;
-            //BackColor = Color.DarkGreen;
-            //BackgroundImage = new Bitmap("wall.png");
             var p = new DirectoryInfo("Images/Themes");
             images = p.EnumerateFiles().ToArray();
             ChangeTheme();
             game = new Game(Width, Height);
             MinimumSize = new Size(400, 600);
-            timer = new Timer { Interval = 10};
+            timer = new Timer {Interval = 10};
             timer.Tick += OnTimerTick;
             timer.Start();
             FormBorderStyle = FormBorderStyle.Sizable;
             bangImage = new Bitmap("Images/bang.png");
+            InitializeOptionsButton();
         }
+
+        private void ChangeTheme()
+        {
+            var image = images[imageNum++ % images.Length];
+            BackgroundImage = new Bitmap(image.FullName);
+        }
+
+        private void InitializeOptionsButton()
+        {
+            optionsButton.Image = new Bitmap("Images/opt.png");
+            //needUpadateOptions = true;
+            optionsButton.Size = new Size(status.Height, status.Height);
+            optionsButton.Click += OptionsButtonOnClick;
+            Controls.Add(optionsButton);
+        }
+
+        private void OptionsButtonOnClick(object sender, EventArgs e)
+        {
+            UpdateOptionsPanel();
+            if (!Controls.Contains(optionsPanel))
+            {
+                pause = true;
+                Controls.Add(optionsPanel);
+            }
+            else
+            {
+                pause = false;
+                game.IsAmmo = optionsPanel.AmmoBox.Checked;
+                game.IsLevel = optionsPanel.LevelBox.Checked;
+                game.IsSight = optionsPanel.SightBox.Checked;
+                game.IsFastMode = optionsPanel.OnlyFastMode.Checked;
+                game.IsFastTurn = optionsPanel.EnabledMode.Checked;
+                Controls.Remove(optionsPanel);
+            }
+        }
+
+        private void UpdateOptionsPanel()
+        {
+            optionsPanel.Size = new Size((int)(game.Width / 1.25), (int)(game.Height / 1.25));
+            optionsPanel.Location = new Point(game.Width / 2 - optionsPanel.Width / 2,
+                game.Height / 2 - optionsPanel.Height / 2);
+            optionsPanel.Update();
+        }
+
+        private void UpdateOptionButton() => optionsButton.Location = new Point(status.Right - optionsButton.Width, status.Y);
 
         private void OnTimerTick(object sender, EventArgs args)
         {
-            if(left)
-                game.Human.TurnLeft();
-            if(right)
-                game.Human.TurnRight();
-            if(shoot)
-                game.Human.Shoot();
-            if (game.Human.Life <= 0)
+            if (!pause)
             {
-                var s = game.Human.Scores;
-                Restart();
-                Pause();
-                MessageBox.Show(string.Format("Game over, your result is {0}", s), "Game over", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (left && !game.IsFastMode)
+                    game.Human.TurnLeft();
+                if (right && !game.IsFastMode)
+                    game.Human.TurnRight();
+                if (game.Human.Life <= 0)
+                {
+                    var s = game.Human.Scores;
+                    Restart();
+                    Pause();
+                    MessageBox.Show(string.Format("Game over, your result is {0}", s), "Game over",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                game.Act();
             }
-            game.Act();
             Invalidate();
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
-            HandleKeys(e, true);
-        }
+        protected override void OnKeyDown(KeyEventArgs e) => HandleKeys(e, true);
 
-        protected override void OnKeyUp(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
-            HandleKeys(e, false);
-        }
-
-        private bool left;
-        private bool right;
-        private bool shoot;
+        protected override void OnKeyUp(KeyEventArgs e) => HandleKeys(e, false);
 
         private void HandleKeys(KeyEventArgs e, bool flag)
         {
             if (e.KeyCode == Keys.A)
                 left = flag;
             if (e.KeyCode == Keys.D)
-                right = flag;
+                right = flag;/*
             if (e.KeyCode == Keys.W)
-                shoot = flag;/*
-            if(e.KeyCode == Keys.P)
-                Pause();
-            if (e.KeyCode == Keys.R)
-                Restart();*/
+                shoot = flag;*/
         }
-        
+
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             switch (char.ToLower(e.KeyChar))
-            {/*
-                case 'a':
-                case 'ф':
-                    game.Human.TurnLeft();
-                    break;
-                case 'd':
-                case 'в':
-                    game.Human.TurnRight();
-                    break;
+            {
                 case 'w':
                 case 'ц':
                     game.Human.Shoot();
                     break;
-                case 'z':
-                case 'я':
-                    game.Human.FastTurnLeft();
-                    break;
-                case 'x':
-                case 'ч':
-                    game.Human.FastTurnRight();
-                    break;*/
                 case 'p':
                 case 'з':
                     Pause();
@@ -120,27 +142,25 @@ namespace Shooter
                 case 'к':
                     Restart();
                     break;
-
+                case 'z':
+                case 'я':
+                    game.Human.FastTurnLeft();
+                    break;
+                case 'x':
+                case 'ч':
+                    game.Human.FastTurnRight();
+                    break;
             }
         }
 
-        private void Pause()
-        {
-            if (timer.Enabled) timer.Stop();
-            else timer.Start();
-        }
+        private void Pause() => pause = !pause;
 
-        void Restart()
+        private void Restart()
         {
             game.Restart();
             ChangeTheme();
-            left = right = shoot = false;
-
+            left = right = false;
         }
-
-        //public bool IsBang { get; set; }
-        private int bangTime = 15;
-        private readonly Bitmap bangImage;
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -152,11 +172,6 @@ namespace Shooter
             DrawLifes(e.Graphics);
             DrawLevel(e.Graphics);
             DrawBang(e.Graphics);
-            /*
-e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(0, 0), new Size(100, 100)));
-e.Graphics.FillRectangle(Brushes.Black, new Rectangle(new Point(
-e.ClipRectangle.Width - 100,
-e.ClipRectangle.Height - 100),new Size(100, 100)));*/
         }
 
         private void DrawBang(Graphics g)
@@ -181,27 +196,41 @@ e.ClipRectangle.Height - 100),new Size(100, 100)));*/
             }
         }
 
-        void DrawLevel(Graphics g)
+        private void DrawLevel(Graphics g)
         {
-            var x = (new PointF(0, game.Level)).Convert(game.Height);
-            var y = (new PointF(game.Width, game.Level)).Convert(game.Height);
+            var x = new PointF(0, game.Level).Convert(game.Height);
+            var y = new PointF(game.Width, game.Level).Convert(game.Height);
             g.DrawLine(Pens.Red, x, y);
         }
 
-        void UpdateGame(PaintEventArgs e)
+        private int f;
+        //public static Font Font;
+
+        private void UpdateGame(PaintEventArgs e)
         {
             status.Location = new Point(0, e.ClipRectangle.Height - 40);
-            status.Size = new Size(Width, 40);
+            status.Size = new Size(e.ClipRectangle.Width, 40);
+            if (++f % 5 == 0)
+            {
+                UpdateOptionButton();
+                UpdateOptionsPanel();
+                //needUpadateOptions = false;
+            }
+
             game.Height = e.ClipRectangle.Height - status.Height;
             game.Width = e.ClipRectangle.Width;
-            //game.Player.InitLine(game);
         }
 
-        void DrawLifes(Graphics g)
+        private void DrawLifes(Graphics g)
         {
-            g.DrawString(string.Format("L: {0} S: {1} MAX: {2} A: {3}", game.Human.Life.ToString()
-                , game.Human.Scores, Game.MaxScores, game.Human.Ammo), new Font("Arial", 22), Brushes.DarkGreen,
+            var textStatus = string.Format("L: {0} S: {1} MAX: {2}", game.Human.Life.ToString()
+                , game.Human.Scores, Game.MaxScores);
+            if (game.IsAmmo)
+                textStatus += string.Format(" A:{0}", game.Human.Ammo); 
+            g.DrawString(textStatus, new Font("Determination Mono(RUS BY LYAJK", 23), Brushes.DarkRed,
                 status, StringFormat.GenericTypographic);
         }
+
+        //protected override void OnSizeChanged(EventArgs e) => needUpadateOptions = true;
     }
 }
