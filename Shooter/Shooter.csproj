@@ -39,6 +39,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Menu.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -12,7 +12,7 @@ namespace Shooter
         public readonly RadioButton DisabledMode;
         public readonly RadioButton EnabledMode;
         public readonly RadioButton OnlyFastMode;
-
+        public readonly Button ChangeThemeButton;
         public readonly CheckBox SightBox;
         public readonly CheckBox LevelBox;
         private readonly Label controls;
@@ -37,6 +37,8 @@ x - fast turn right", Font = new Font("Determination Mono(RUS BY LYAJK", 15) };
             fastTurnBox = new GroupBox();
             fastTurnBox.Font = Font = new Font("Determination Mono(RUS BY LYAJK", 14);
             fastTurnBox.Text = "Fast turn mode";
+            ChangeThemeButton = new Button { Text = "Change theme" };
+
             Update();
             DisabledMode = new RadioButton();
             OnlyFastMode = new RadioButton();
@@ -47,7 +49,9 @@ x - fast turn right", Font = new Font("Determination Mono(RUS BY LYAJK", 15) };
             LevelBox = new CheckBox();
             SightBox = new CheckBox();
             InitializeCheckBoxes();
-
+            //ChangeThemeButton.Size = new Size(Width / 6, Width / 18);
+            //ChangeThemeButton.Location = new Point(Width - Width / 12 - ChangeThemeButton.Width, Height - 2 * ChangeThemeButton.Height);
+            Controls.Add(ChangeThemeButton);
             AddControls();
 
         }
@@ -114,6 +118,9 @@ x - fast turn right", Font = new Font("Determination Mono(RUS BY LYAJK", 15) };
             UpdateGroupBox();
             UpdateControls();
             UpdateFastTurnBox();
+            ChangeThemeButton.Size = new Size(Width / 4, Width / 8);
+            ChangeThemeButton.Location = new Point(Width - Width / 4 - ChangeThemeButton.Width, Height - 2 * ChangeThemeButton.Height);
+
         }
 
         void UpdateControls()
