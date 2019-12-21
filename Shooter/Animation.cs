@@ -12,7 +12,7 @@ namespace Shooter
                 , game.Human.Scores, Game.MaxScores);
             if (game.IsAmmo)
                 textStatus += string.Format(" A:{0}", game.Human.Ammo);
-            g.DrawString(textStatus, new Font("Determination Mono(RUS BY LYAJK", 23), Brushes.DarkRed,
+            g.DrawString(textStatus, new Font(FontFamily, 23), Brushes.DarkRed,
                 status, StringFormat.GenericTypographic);
         }
 

@@ -25,17 +25,17 @@ d - turn left,
 p - pause,
 r - restart,
 z - fast turn left,
-x - fast turn right", Font = new Font("Determination Mono(RUS BY LYAJK", 15) };
+x - fast turn right", Font = new Font(MainForm.FontFamily, 15) };
             controls.AutoSize = true;
             BorderStyle = BorderStyle.Fixed3D;
-            nameLabel = new Label { Text = "Options", Font = new Font("Determination Mono(RUS BY LYAJK", 18) };
+            nameLabel = new Label { Text = "Options", Font = new Font(MainForm.FontFamily, 18) };
             nameLabel.AutoSize = true;
             contentInUse = new GroupBox();
-            contentInUse.Font = Font = new Font("Determination Mono(RUS BY LYAJK", 13);
+            contentInUse.Font = Font = new Font(MainForm.FontFamily, 13);
             contentInUse.Text = "Gameplay";
 
             fastTurnBox = new GroupBox();
-            fastTurnBox.Font = Font = new Font("Determination Mono(RUS BY LYAJK", 14);
+            fastTurnBox.Font = Font = new Font(MainForm.FontFamily, 14);
             fastTurnBox.Text = "Fast turn mode";
             ChangeThemeButton = new Button { Text = "Change theme" };
 

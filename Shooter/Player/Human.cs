@@ -25,15 +25,14 @@ namespace Shooter
             ShellVelocity = 49;
         }
 
-        public uint Life { get; set; } 
-            = 5;
+        public uint Life { get; set; } = 5;
 
         public uint Scores
         {
             get => scores;
             set
             {
-                if (value > Game.MaxScores)
+                if (value > Game.MaxScores && game.IsAmmo && game.IsLevel)
                     Game.MaxScores = value;
                 if (value % 10 == 0)
                 {

@@ -27,7 +27,17 @@ namespace Shooter
         private bool right;
         //private bool shoot;
         private Rectangle status;
-
+        static MainForm()
+        {
+            var customFont = new PrivateFontCollection();
+            customFont.AddFontFile("Determination.ttf");
+            FontFamily = customFont.Families[0];
+            //customFont.AddFontFile("Font/MonsterFriend.ttf");
+            /*MonsterFriend = new Font(customFont.Families[1], 30);
+            DeterminationBase = new Font(customFont.Families[0], 20);
+            DeterminationMini = new Font(customFont.Families[0], 15);
+            */
+        }
         public MainForm()
         {
             KeyPreview = true;
@@ -136,6 +146,8 @@ namespace Shooter
         }
 
         private int updatingCounter;
+
+        public static readonly FontFamily FontFamily;
 
         private void UpdateGame(PaintEventArgs e)
         {

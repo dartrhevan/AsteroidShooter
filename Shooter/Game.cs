@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Shooter
@@ -8,6 +9,8 @@ namespace Shooter
     {
         private int width;
         private int height;
+        private static uint maxScores;
+
         public PointF? BangPlace { get; set; }
         public bool IsAmmo { get; set; } = true;
 
@@ -17,8 +20,32 @@ namespace Shooter
         public bool IsFastMode { get; set; } = false;
 
         public int Level { get; set; }
+
+        const string fileName = "max.cfg";
+
+        static Game()
+        {
+            if (File.Exists(fileName))
+                maxScores = uint.Parse(File.ReadAllText(fileName));
+            else
+                File.WriteAllText(fileName, (0).ToString());
+        }
         //private int s = 0;
-        public static uint MaxScores { get; set; }
+        public static uint MaxScores
+        {
+            get
+            {
+                return maxScores;
+            }
+            set
+            {
+                maxScores = value;
+                File.WriteAllText(fileName, maxScores.ToString());
+            }
+        }
+
+
+
         public int Height
         {
             get => height;
@@ -26,7 +53,6 @@ namespace Shooter
             {
                 height = value;
                 Human.UpdateLine();
-
             }
         }
 
@@ -93,7 +119,7 @@ namespace Shooter
                 s2.Disappear();
                 Human.Scores++;
                 if (Human.Scores % 5 == 0)
-                    Bot.ShellVelocity++;
+                    Bot.ShellVelocity += 0.5;
                 return true;
             }
             return false;
@@ -101,14 +127,14 @@ namespace Shooter
 
         public static double GetDistance(double dx, double dy) =>
             Math.Sqrt(dx * dx + dy * dy);
-        
+
         public static double GetDistance(PointF d1, PointF d2) =>
             GetDistance(d1.X - d2.X, d1.Y - d2.Y);
 
-        
+
     }
 
-    
+
     public static class PointFExtension
     {
         public static PointF Convert(this PointF point, float height) =>
